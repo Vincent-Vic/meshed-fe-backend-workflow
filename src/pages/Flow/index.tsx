@@ -1,4 +1,4 @@
-import {IAppLoad } from '@antv/xflow'
+import {IApplication, IAppLoad} from '@antv/xflow'
 import React, { useRef, useEffect } from 'react'
 /** 交互组件 */
 import {
@@ -39,6 +39,7 @@ import './index.less'
 import '@antv/xflow/dist/index.css'
 import {registerNode} from "@/pages/Flow/config/config-register-node";
 import {CustomFlowchartFormPanel} from "@/pages/Flow/form";
+import {initGraphCmds} from "@/pages/Designable/service/graph-cmd";
 
 export interface IProps {
   meta: { flowId: string }
@@ -51,13 +52,26 @@ const  FlowDesigner: React.FC<IProps> = props => {
   const keybindingConfig = useKeybindingConfig()
   const graphRef = useRef<Graph>()
   const commandConfig = useCmdConfig()
+
+  const cache = React.useMemo<{ app: IApplication | null } | null>(
+    () => ({
+      app: null,
+    }),
+    [],
+  )
+
   /**
    * @param app 当前XFlow工作空间
    * @param extensionRegistry 当前XFlow配置项
    */
-
   const onLoad: IAppLoad = async app => {
+    console.log("app",app)
+    // @ts-ignore
+    cache.app = app
     graphRef.current = await app.getGraphInstance()
+    if (app){
+      initGraphCmds(app)
+    }
   }
 
   useEffect(() => {
@@ -65,6 +79,11 @@ const  FlowDesigner: React.FC<IProps> = props => {
       graphRef.current.on('node:click', (...arg) => {
         console.log(arg)
       })
+    }
+    console.log(cache)
+    if (cache && cache.app){
+      console.log("cache")
+      initGraphCmds(cache.app)
     }
   }, [graphRef])
 
