@@ -20,7 +20,7 @@ export default {
       pathRewrite: { '^/api': '' },
     },
     '/api/workflow/': {
-      target: 'http://localhost:9989',
+      target: 'http://114.132.234.23:9989',
       changeOrigin: true,
       pathRewrite: { '^/api': '' },
     },
@@ -32,7 +32,7 @@ export default {
   test: {
     // localhost:8000/api/** -> https://preview.pro.ant.design/api/**
     '/api/iam/': {
-      target: 'http://localhost:7989',
+      target: 'https://oauth2.meshed.cn',
       changeOrigin: true,
       pathRewrite: { '^/api': '' },
     },
