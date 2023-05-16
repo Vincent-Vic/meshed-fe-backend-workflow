@@ -87,8 +87,8 @@ const FormList: React.FC = () => {
           actions: {
             render: (text, row) => [
               <ModalSchema
-                buttonText="查看"
-                title="预留（无数据操作）"
+                buttonText="预览"
+                title="预览（无数据操作）"
                 formId={row.id}
                 businessId={row.id}
                 request={async formId => {
